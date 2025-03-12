@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react';
 // gives us an alias and imports all calls that we will define in service file
 import * as petService from './services/petService.js';
 import PetList from './components/PetList/PetList.jsx';
+import PetDetail from './components/PetDetail/PetDetail.jsx';
 
 
 const App = () => {
   const [pets, setPets] = useState([]); // set initial state of pets
+  // selected pet from list
+  const [selected, setSelected] = useState(null);
 
   //first arg is an anonymous function, which will hold our logic
   //second arg is an array of info we might use
@@ -30,13 +33,18 @@ const App = () => {
     fetchPets(); //putting this AFTER the definition of fetchPets
   }, []);
 
+  const handleSelect = (pet) => {
+    setSelected(pet);
+  };
+
   // now we have fetched the data, we need to display it by making a component
 
 
   return (
     <>
       {/* passing pets into the component */}
-      <PetList pets={pets} />
+      <PetList pets={pets} handleSelect={handleSelect}/>
+      <PetDetail selected={selected} />
     </>
   )
 };
